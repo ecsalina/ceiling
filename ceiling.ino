@@ -28,19 +28,58 @@ void setup() {
             [49, 50, 51]
             [52, 53, 54]
           ]
+  LEDBuffer = [18][3]
+
+
+  char separator = ','
+  char fullStop = '*'
+          
   Serial.begin(9600)
 }
 
 void loop() {
-  while(Serial.available() > 0){
-    int LED = Serial.parseInt();
-    int r = Serial.parseInt();
-    int g = Serial.parseInt();
-    int b = Serial.parseInt();
-
-    analogWrite(LEDs[LED][0], r);
-    analogWrite(LEDs[LED][1], g);
-    analogWrite(LEDs[LED][2], b);
+  if(Serial.available()){
+    char c = Serial.read()
+    if(c == separator){
+      updateBuffer(data)
+      data = ""
+    }else if(c == fullStop){
+      writeLEDs()
+      data = ""
+    }else{
+      data += c
+    }
   }
-
 }
+
+
+
+void updateBuffer(string data){
+  rest = data
+  int LED = rest.substring(0, rest.indexOf(separator))
+  String rest = rest.substring(rest.indexOf(separator))
+  int R = rest.substring(0, rest.indexOf(separator))
+  String rest = rest.substring(rest.indexOf(separator))
+  int G = rest.substring(0, rest.indexOf(separator))
+  String rest = rest.substring(rest.indexOf(separator))
+  int B = rest
+
+  LEDBuffer[LED] = [R, G, B]
+}
+
+  
+void writeLEDs(){
+  for(int i=0; i<sizeof(LEDBuffer); i++){
+    analogWrite(i, LEDBuffer[i][0])
+    analogWrite(i, LEDBuffer[i][1])
+    analogWrite(i, LEDBuffer[i][2])
+  }
+}
+
+
+
+
+
+
+
+
