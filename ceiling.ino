@@ -31,8 +31,9 @@ void setup() {
   LEDBuffer = [18][3]
 
 
-  char separator = ','
-  char fullStop = '*'
+  char colorSep = ','
+  char LEDsep = ';'
+  char fullStop = '.'
           
   Serial.begin(9600)
 }
@@ -40,7 +41,7 @@ void setup() {
 void loop() {
   if(Serial.available()){
     char c = Serial.read()
-    if(c == separator){
+    if(c == LEDsep){
       updateBuffer(data)
       data = ""
     }else if(c == fullStop){
@@ -56,12 +57,12 @@ void loop() {
 
 void updateBuffer(string data){
   rest = data
-  int LED = rest.substring(0, rest.indexOf(separator))
-  String rest = rest.substring(rest.indexOf(separator))
-  int R = rest.substring(0, rest.indexOf(separator))
-  String rest = rest.substring(rest.indexOf(separator))
-  int G = rest.substring(0, rest.indexOf(separator))
-  String rest = rest.substring(rest.indexOf(separator))
+  int LED = rest.substring(0, rest.indexOf(colorSep))
+  String rest = rest.substring(rest.indexOf(colorSep))
+  int R = rest.substring(0, rest.indexOf(colorSep))
+  String rest = rest.substring(rest.indexOf(colorSep))
+  int G = rest.substring(0, rest.indexOf(colorSep))
+  String rest = rest.substring(rest.indexOf(colorSep))
   int B = rest
 
   LEDBuffer[LED] = [R, G, B]
